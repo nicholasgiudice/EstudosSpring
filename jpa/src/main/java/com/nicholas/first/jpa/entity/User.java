@@ -11,6 +11,14 @@ public class User {
     private String nome;
     private String email;
 
+    public User() {
+    }
+
+    public User(String nome, String email) {
+        this.nome = nome;
+        this.email = email;
+    }
+
     @ManyToMany
     private Set<Role> roles;
 

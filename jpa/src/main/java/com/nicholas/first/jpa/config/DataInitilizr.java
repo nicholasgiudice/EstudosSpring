@@ -7,6 +7,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class DataInitilizr implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -15,10 +17,23 @@ public class DataInitilizr implements ApplicationListener<ContextRefreshedEvent>
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        User user = new User();
 
-        user.setEmail("nicholas.giudice@outlook.com");
-        user.setNome("Nicholas");
+        List<User> users = userRepository.findAll();
+
+        if (users.isEmpty()) {
+            createUser("Nicholas", "Nicholas.Giudice@outlook.com");
+            createUser("Giovana", "giovana@outlook.com");
+        }
+
+        User user = userRepository.getOne(1L);
+
+        System.out.println(user .getNome());
+    }
+
+    public void createUser(String name, String email) {
+        User user = new User();
+        user.setNome(name);
+        user.setEmail(email);
 
         userRepository.save(user);
     }
